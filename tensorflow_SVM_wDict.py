@@ -16,18 +16,30 @@ beta = 1
 
 def makeDataset():
     sCnt = 1000
-    numAttributes = 2
+    #numAttributes = 2
+    numAttributes = 11
 
     # true parameters w and b
-    true_w1 = -0.5
-    true_w2 = 1.3
+    # seperate the weights to num attributes
+    true_w1 = 2
+    true_w2 = 5
+    true_w3 = 0.35
+    true_w4 = 0.37
+    true_w5 = 0.36
+    true_w6 = 3.1
+    true_w7 = 3.15
+    true_w8 = 3.17
+    true_w9 = 3.12
+    true_w10 = .51
+    true_w11 = .52
     true_b = -0.3
 
     # sample some random point in 2D feature space
     x_train = np.random.randn(sCnt, numAttributes).astype(dtype='float32')
 
     # calculate u=w^Tx+b
-    u = true_w1 * x_train[:, 0] + true_w2 * x_train[:, 1] + true_b
+    # u = true_w1 * x_train[:, 0] + true_w2 * x_train[:, 1] + true_b
+    u = true_w1 * x_train[:, 0] + true_w2 * x_train[:, 1] + true_w3 * x_train[:, 2] + true_w4 * x_train[:, 3]+ true_w5 * x_train[:, 4] + true_w6 * x_train[:, 5]+ true_w7 * x_train[:, 6] + true_w8 * x_train[:, 7] + true_w9 * x_train[:, 8] + true_w10 * x_train[:, 9] + true_w11 * x_train[:, 10] + true_b
 
     # P(+1|x)=a(u) #see slides for def. of a(u)
     pPlusOne = 1.0 / (1.0 + np.exp(-1.0 * u))
@@ -41,7 +53,7 @@ def makeDataset():
     x_test = np.random.randn(sCnt, numAttributes).astype(dtype='float32')
 
     # calculate u=w^Tx+b
-    u = true_w1 * x_test[:, 0] + true_w2 * x_test[:, 1] + true_b
+    u = true_w1 * x_test[:, 0] + true_w2 * x_test[:, 1] + true_w3 * x_test[:, 2] + true_w4 * x_test[:, 3]+ true_w5 * x_test[:, 4] + true_w6 * x_test[:, 5]+ true_w7 * x_test[:, 6] + true_w8 * x_test[:, 7] + true_w9 * x_test[:, 8] + true_w10 * x_test[:, 9] + true_w11 * x_test[:, 10] + true_b
 
     # P(+1|x)=a(u) #see slides for def. of a(u)
     pPlusOne = 1.0 / (1.0 + np.exp(-1.0 * u))
@@ -52,8 +64,8 @@ def makeDataset():
     y_test = 2 * y01_test - 1
     y_test = y_test.reshape((sCnt, 1)).astype(dtype='float32')
 
-    train_adjacency_matrix = np.array([[0, 1], [0, 0]], dtype='float32')
-    train_degree_matrix = np.array([[1, 0], [0, 1]], dtype='float32')
+    train_adjacency_matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0], [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]], dtype='float32')
+    train_degree_matrix = np.multiply(np.array([0, 0, 2, 2, 2, 3, 3, 3, 3, 1, 1], dtype='float32'), np.identity(numAttributes))
 
     laplacian_matrix = np.subtract(train_degree_matrix, train_adjacency_matrix)
 
