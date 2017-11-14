@@ -52,8 +52,8 @@ def makeDataset():
     y_test = 2 * y01_test - 1
     y_test = y_test.reshape((sCnt, 1)).astype(dtype='float32')
 
-    train_adjacency_matrix = np.array([[0, 1], [0, 0]], dtype='float32')
-    train_degree_matrix = np.array([[1, 0], [0, 1]], dtype='float32')
+    train_adjacency_matrix = np.array([[0, 1], [0, 1]], dtype='float32')
+    train_degree_matrix = np.array([[1, 0], [0, 0]], dtype='float32')
 
     laplacian_matrix = np.subtract(train_degree_matrix, train_adjacency_matrix)
 
@@ -121,8 +121,8 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test});
-acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test;
+y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test})
+acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test
 print(acc)
 # start the iterations of gradient descent
 for i in range(0, n_epochs):
