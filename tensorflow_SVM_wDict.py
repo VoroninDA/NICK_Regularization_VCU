@@ -141,14 +141,11 @@ loss = tf.maximum(1 - tf.multiply(y, predictions), 0)
 # risk over all samples (a number)
 risk = tf.reduce_mean(loss)
 
-# set the penalty for w^2
-L2_penalty = tf.reduce_mean(tf.square(w))
-
 # set the penalty for w^TQw
-NICK_penalty = tf.matmul(tf.transpose(w), tf.matmul(tf.cast(q_matrix, tf.float32), w))
+NICK_penalty = tf.multiply(tf.transpose(w), tf.multiply(tf.cast(q_matrix, tf.float32), w))
 
 # add it to risk
-cost = risk + 0.5 * L2_penalty + 0.5 * NICK_penalty
+cost = risk + NICK_penalty
 
 # define which optimizer to use
 optimizer = tf.train.AdamOptimizer()
