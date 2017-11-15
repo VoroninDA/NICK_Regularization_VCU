@@ -3,7 +3,6 @@
 """
 Created on Sat Aug 19 18:36:26 2017
 
-@author: tarodz
 """
 
 import numpy as np
@@ -13,21 +12,40 @@ np.random.seed(123)
 
 beta = 1
 
+numAttributes = 10
 
 def makeDataset():
     sCnt = 1000
-    numAttributes = 2
 
     # true parameters w and b
-    true_w1 = -0.5
-    true_w2 = 1.3
-    true_b = -0.3
+    # seperate the weights to num attributes
+    true_w1 = 0.3
+    true_w2 = -0.6
+    true_w3 = -0.1
+    true_w4 = -0.5
+    true_w5 = 0.6
+    true_w6 = -0.4
+    true_w7 = -0.2
+    true_w8 = 0.35
+    true_w9 = 0.5
+    true_w10 = 0.55
+    true_b = 0.7
 
     # sample some random point in 2D feature space
     x_train = np.random.randn(sCnt, numAttributes).astype(dtype='float32')
 
     # calculate u=w^Tx+b
-    u = true_w1 * x_train[:, 0] + true_w2 * x_train[:, 1] + true_b
+    u = true_w1 * x_train[:, 0] + \
+        true_w2 * x_train[:, 1] + \
+        true_w3 * x_train[:, 2] + \
+        true_w4 * x_train[:, 3] + \
+        true_w5 * x_train[:, 4] + \
+        true_w6 * x_train[:, 5] + \
+        true_w7 * x_train[:, 6] + \
+        true_w8 * x_train[:, 7] + \
+        true_w9 * x_train[:, 8] + \
+        true_w10 * x_train[:, 9] + \
+        true_b
 
     # P(+1|x)=a(u) #see slides for def. of a(u)
     pPlusOne = 1.0 / (1.0 + np.exp(-1.0 * u))
@@ -41,8 +59,18 @@ def makeDataset():
     x_test = np.random.randn(sCnt, numAttributes).astype(dtype='float32')
 
     # calculate u=w^Tx+b
-    u = true_w1 * x_test[:, 0] + true_w2 * x_test[:, 1] + true_b
-
+    u = true_w1 * x_test[:, 0] + \
+        true_w2 * x_test[:, 1] + \
+        true_w3 * x_test[:, 2] + \
+        true_w4 * x_test[:, 3] + \
+        true_w5 * x_test[:, 4] + \
+        true_w6 * x_test[:, 5] + \
+        true_w7 * x_test[:, 6] + \
+        true_w8 * x_test[:, 7] + \
+        true_w9 * x_test[:, 8] + \
+        true_w10 * x_test[:, 9] + \
+        true_b
+    
     # P(+1|x)=a(u) #see slides for def. of a(u)
     pPlusOne = 1.0 / (1.0 + np.exp(-1.0 * u))
 
@@ -52,13 +80,22 @@ def makeDataset():
     y_test = 2 * y01_test - 1
     y_test = y_test.reshape((sCnt, 1)).astype(dtype='float32')
 
-    train_adjacency_matrix = np.array([[0, 1], [0, 1]], dtype='float32')
-    train_degree_matrix = np.array([[1, 0], [0, 0]], dtype='float32')
+    train_adjacency_matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+                                       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                                       [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+                                       [0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+                                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                       [0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+                                       [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                                       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                       [0, 0, 0, 0, 1, 0, 0, 0, 1, 0]], dtype='float32')
+    train_degree_matrix = np.multiply(np.array([1, 2, 1, 2, 1, 1, 1, 1, 1, 2], dtype='float32'),
+                                      np.identity(numAttributes))
 
     laplacian_matrix = np.subtract(train_degree_matrix, train_adjacency_matrix)
 
-    q_matrix = np.linalg.inv(np.matmul(np.identity(numAttributes), beta * laplacian_matrix))
-
+    q_matrix = np.linalg.inv(np.add(np.identity(numAttributes), beta * laplacian_matrix))
     return x_train, y_train, x_test, y_test, q_matrix
 
 
@@ -78,7 +115,7 @@ batch_size = 128
 ##define and initialize shared variables
 ## (the variable persist, they encode the state of the classifier throughout learning via gradient descent)
 # w is the feature weights, a 2D vector
-initialW = np.random.rand(2, 1).astype(dtype='float32')
+initialW = np.random.rand(numAttributes, 1).astype(dtype='float32')
 w = tf.Variable(initialW, name="w")
 
 # b is the bias, so just a single number
@@ -121,8 +158,8 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test})
-acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test
+y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test});
+acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test;
 print(acc)
 # start the iterations of gradient descent
 for i in range(0, n_epochs):
