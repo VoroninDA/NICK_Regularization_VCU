@@ -1,13 +1,19 @@
-\section{Indroduction}
+\section{Introduction}
 
 % no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.8b and later.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-I wish you the best of success.
+	The \textit{Network-Induced Classification Kernel} is a regularization method proposed by Lavi et al\cite{Lavi2012} which exploits prior knowledge as to the relatedness of features in the classification problem in order to improve performance.  It does this by utilizing an undirected graph detailing the relationships between the available features, with the assumption that features connected within the graph should have similar weights in the final classification function.  In their paper, this method entitled Network-Induced Classification Kernel (NICK) is presented as a new kernel for SVM classification and is evaluated on identifying biomarker sets for breast cancer prognosis.
+	
+	The method works in this setting by first taking as input a network in the form of a simple
+undirected graph $G = (V, E)$ with a set of nodes $V$ and a set of edges $E$ (each edge is represented by a pair of nodes $(i, j)$ where $i, j \in V$) where each node represents a gene (feature) and edges represent an interaction between the genes in the network. It then modifies the standard SVM cost function to introduce a term penalizing a difference in weights between genes which interact, given by the following equation:
 
-\cite{Lavi2012}
- 
-\hfill November 14, 2017
+\begin{align*}
+	& \min_{w,w_0}
+	  \left\lbrace 
+	  \frac{1}{2}\|\textbf{w}\|^2 + 
+	  \frac{1}{2}\beta \sum_{(j,k) \in E} (w_j - w_k)^2 
+	  \right\rbrace \\
+	\text{subject to} \hfill \\
+	& (\textbf{w}^T\textbf{x}_i + w_0) \cdot y_i \geq 1 \quad \text{for } i = 1, \ldots , n
+\end{align*}
+
+\noindent where $\textbf{x}_i$ is a vector of gene expression values representing the $i$’th sample and $y_i$ is the $i$’th sample’s label, $y_i \in \{ - 1‚ 1 \}$. $\beta \geq 0$ is a trade-off parameter, with higher values of $\beta$ giving more strength to the network and $\beta = 0$ representing the standard SVM cost function.

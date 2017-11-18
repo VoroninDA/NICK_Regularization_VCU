@@ -126,3 +126,5 @@ ENV/
 *.tgz
 *.zip
 *.rpi
+*.gz
+*.synctex.gz
