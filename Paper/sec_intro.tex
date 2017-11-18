@@ -1,9 +1,9 @@
 \section{Introduction}
 
 % no \IEEEPARstart
-	The \textit{Network-Induced Classification Kernel} is a regularization method proposed by Lavi et al\cite{Lavi2012} which exploits prior knowledge as to the relatedness of features in the classification problem in order to improve performance.  It does this by utilizing an undirected graph detailing the relationships between the available features, with the assumption that features connected within the graph should have similar weights in the final classification function.  In their paper, this method entitled Network-Induced Classification Kernel (NICK) is presented as a new kernel for SVM classification and is evaluated on identifying biomarker sets for breast cancer prognosis.
+The \textit{Network-Induced Classification Kernel} is a regularization method proposed by Lavi et al\cite{Lavi2012} which exploits prior knowledge as to the relatedness of features in the classification problem in order to improve performance.  It does this by utilizing an undirected graph detailing the relationships between the available features, with the assumption that features connected within the graph should have similar weights in the final classification function.  In their paper, this method entitled Network-Induced Classification Kernel (NICK) is presented as a new kernel for SVM classification and is evaluated on identifying biomarker sets for breast cancer prognosis.
 	
-	The method works in this setting by first taking as input a network in the form of a simple
+The method works in this setting by first taking as input a network in the form of a simple
 undirected graph $G = (V, E)$ with a set of nodes $V$ and a set of edges $E$ (each edge is represented by a pair of nodes $(i, j)$ where $i, j \in V$) where each node represents a gene (feature) and edges represent an interaction between the genes in the network. It then modifies the standard SVM cost function to introduce a term penalizing a difference in weights between genes which interact, given by the following equation:
 
 \begin{align*}
@@ -17,3 +17,12 @@ undirected graph $G = (V, E)$ with a set of nodes $V$ and a set of edges $E$ (ea
 \end{align*}
 
 \noindent where $\textbf{x}_i$ is a vector of gene expression values representing the $i$’th sample and $y_i$ is the $i$’th sample’s label, $y_i \in \{ - 1‚ 1 \}$. $\beta \geq 0$ is a trade-off parameter, with higher values of $\beta$ giving more strength to the network and $\beta = 0$ representing the standard SVM cost function.
+
+This kernel can be represented in the form of a matrix \textbf{Q}, derived from the \textit{Laplacian Matrix} \textbf{B} of the network graph given by $\textbf{Q} = (\textbf{I} + \beta\textbf{B})^{-1}$ where \textbf{I} is the identity matrix.
+
+The structure of the remainder of this paper is as follows:
+\begin{enumerate}
+	\item We present an overview of our examination of this method, the generation of our datasets and our evaluation procedure
+	\item We present the results of our evaluation and compare them to the results presented by Lavi et al
+	\item We offer some conclusions regarding the performance of this method and speculations as to its usefulness
+\end{enumerate}
