@@ -1,3 +1,5 @@
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -99,3 +101,28 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# LaTex Stuff
+*.pdf
+*.log
+*.aux
+*.cfg
+*.glo
+*.idx
+*.toc
+*.ilg
+*.ind
+*.out
+*.lof
+*.lot
+*.bbl
+*.blg
+*.gls
+*.cut
+*.hd
+*.dvi
+*.ps
+*.thm
+*.tgz
+*.zip
+*.rpi
