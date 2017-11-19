@@ -1,1 +1,74 @@
 \section{Methods}
+
+To evaluate this method we opt to utilize synthetic datasets due to difficulties parsing the gene datasets.  This approach has the added benefit of evaluating the regularization method in a general purpose sense, rather than in a specific domain.  To begin we generated the network detailed in Figure \ref{fig:network1}.  
+
+\begin{figure}[h]
+	\caption{}
+	\label{fig:network1}
+	\centering
+	\begin{tikzpicture}[auto, node distance=1.5cm]
+            
+        	\tikzstyle{every state}=[circle]
+			\node[state, label={\textbf{0.3}}] (q1) {1};
+			\node[state, label={\textbf{-0.1}}] (q3) [right of=q1]{3};
+			\node[state, label={\textbf{-0.5}}] (q4) [left of=q1]{4};
+			\node[state, label={left:\textbf{-0.6}}] (q2) [below left of=q4]{2};
+			\node[state, label={\textbf{0.6}}] (q5) [right of=q3]{5};
+			\node[state, label={below:\textbf{-0.4}}] (q6) [below right of=q2]{6};
+			\node[state, label={below:\textbf{0.35}}] (q8) [right of=q6]{8};
+			\node[state, label={below:\textbf{-0.2}}] (q7) [right of=q8]{7};
+			\node[state, label={right:\textbf{0.5}}] (q9) [below right of=q5]{9};
+			\node[state, label={below:\textbf{0.55}}] (q10) [right of=q7]{10};
+			
+			\path (q1) edge node {} (q8)
+				  (q3) edge node {} (q7)
+				  (q5) edge node {} (q10)
+				  (q9) edge node {} (q10)
+				  (q4) edge node {} (q6)
+				  (q2) edge node {} (q4)
+				  (q2) edge node {} (q6);
+			
+	\end{tikzpicture}
+\end{figure}
+
+\noindent
+This network contains 10 features with 4 distinct clusters.  The true weights of each feature are shown in bold.  It contains 2 positive and 2 negative clusters and is designed to be an easier network for NICK to improve performance on.
+
+We also generate the more difficult network shown in Figure \ref{fig:network2}.
+
+% Replace with second network
+\begin{figure}[h]
+	\caption{}
+	\label{fig:network2}
+	\centering
+	\begin{tikzpicture}[auto, node distance=1.5cm]
+            
+        	\tikzstyle{every state}=[circle]
+			\node[state, label={\textbf{0.3}}] (q1) {1};
+			\node[state, label={\textbf{-0.1}}] (q3) [right of=q1]{3};
+			\node[state, label={\textbf{-0.5}}] (q4) [left of=q1]{4};
+			\node[state, label={left:\textbf{-0.6}}] (q2) [below left of=q4]{2};
+			\node[state, label={\textbf{0.6}}] (q5) [right of=q3]{5};
+			\node[state, label={below:\textbf{-0.4}}] (q6) [below right of=q2]{6};
+			\node[state, label={below:\textbf{0.35}}] (q8) [right of=q6]{8};
+			\node[state, label={below:\textbf{-0.2}}] (q7) [right of=q8]{7};
+			\node[state, label={right:\textbf{0.5}}] (q9) [below right of=q5]{9};
+			\node[state, label={below:\textbf{0.55}}] (q10) [right of=q7]{10};
+			
+			\path (q1) edge node {} (q8)
+				  (q3) edge node {} (q7)
+				  (q5) edge node {} (q10)
+				  (q9) edge node {} (q10)
+				  (q4) edge node {} (q6)
+				  (q2) edge node {} (q4)
+				  (q2) edge node {} (q6);
+			
+	\end{tikzpicture}
+\end{figure}
+
+\noindent
+It is designed to be a more realistic network to evaluate the performance of NICK.
+
+For each network we generate 1000 random training and testing samples. The class label of each sample is assigned from a bimodal distribution based on the probability of a given class label and the values of the features, given the true weights of each feature.  We then train an SVM classifier with 100 epochs and batch size of 128. We then evaluate its accuracy on the testing dataset and repeat the procedure for several values of $\beta$, with $\beta = 0$, the standard SVM cost function, severing as our baseline.
+
+All implementation of the generation of the datasets, training of the classifier, and evaluation were done in Python. We utilized the Adam Optimizer provided by the TensorFlow package to optimize our cost function.
