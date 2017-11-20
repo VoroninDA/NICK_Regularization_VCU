@@ -10,7 +10,7 @@ import tensorflow as tf
 
 np.random.seed(123)
 
-beta = 1
+beta = 10000.0
 
 numAttributes = 10
 

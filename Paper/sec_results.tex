@@ -1,1 +1,20 @@
 \section{Results}
+After generating the defining matrices for our simple network as well as altering the weight, $beta$ of the regularization method the following table contains the accuracy of predictions.
+\begin{figure}[h]
+	\caption{}
+	\label{fig:accuracies}
+	\centering
+\begin{tabular}{|r|l|}
+  \hline
+  value of: $\beta$ & Accuracy \\
+  \hline
+  0.0 & .685 \\
+  0.1 & .686 \\
+  0.5 & .686 \\
+  1.0 & .687 \\
+  \hline \hline
+  \multicolumn{2}{ |c| }{Calculated after 1000 iterations} \\
+  \hline
+\end{tabular}
+\end{figure}
+Due to the lack of strong relations within our test network, there was only a subtle change in accuracy after taking into account the full weight of the regularization. Upon further investigation, more complex networks like STRING (Snel et al., 200; Jensen et al., 2009) in gene pair populations can provide more meaningful results. As stated in the original paper, Lavi's acquired results were based off of a network of 6243 nodes and 19102 edges where each node was an features in the feature set. Considering the scale of such network, our results when compared to Lavi's are scaled proportionally to the complexity of the graph.
