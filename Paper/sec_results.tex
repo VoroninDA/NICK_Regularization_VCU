@@ -8,18 +8,18 @@ The results of or evaluation are given in Figure \ref{fig:accuracies}.  We mirro
   \hline
   $\beta$ & Accuracy (\%) \\
   \hline
-  0.0 & \textit{68.50} \\
-  0.05 & 68.60 \\
-  0.1 & 68.60 \\
-  0.5 & 68.60 \\
-  1.0 & \textbf{68.70} \\
-  2.0 & \textbf{68.70} \\
-  5.0 & 68.60 \\
-  10.0 & 68.50 \\
+  0.0 & \textit{68.5} \\
+  0.05 & 68.6 \\
+  0.1 & 68.6 \\
+  0.5 & 68.6 \\
+  1.0 & \textbf{68.7} \\
+  2.0 & \textbf{68.7} \\
+  5.0 & 68.6 \\
+  10.0 & 68.5 \\
   
   \hline \hline
   \multicolumn{2}{ |c| }{Calculated after 1000 iterations} \\
   \hline
 \end{tabular}
 \end{figure}
-We observe that for $\beta = 1, 2$ we achieve a slight performance gain over the baseline of $\beta = 0$.  We also see a similar pattern to that found by Lavi et al on several of their datasets, that increasing values of $\beta$ may have little effect and may indeed have a detrimental loss on performance. Based on the performance gains achieved by Lavi et al, we theorize that a more complex network may yield more impressive results. Lavi et al for their evaluations utilized the STRING network \cite{Jensen2009} composed of 6243 nodes and 19102 edges representing 6243 genes and 19102 interactions respectively. Considering the scale of such network, the potential for NICK regularization to have a positive effect is much larger, as the complexity of the the classification problem increases.  Given our network is comparatively small, we can expect the performance benefits provided by regularization to be proportionally small as well.
+We observe that for $\beta = 1, 2$ we achieve a slight performance gain over the baseline of $\beta = 0$.  We also see a similar pattern to that found by Lavi et al on several of their datasets, that increasing values of $\beta$ may have little effect and may indeed have a detrimental loss on performance. Based on the performance gains achieved by Lavi et al of $0\%-3\%$ dependent on dataset, we theorize that a more complex network may yield more impressive results. Lavi et al for their evaluations utilized the STRING network \cite{Jensen2009} composed of 6243 nodes and 19102 edges representing 6243 genes and 19102 interactions respectively. Considering the scale of such network, the potential for NICK regularization to have a positive effect is much larger, as the complexity of the the classification problem increases.  Given our network is comparatively small, we can expect the performance benefits provided by regularization to be proportionally small as well.  Nevertheless, despite the simplicity of our network, NICK was still able to achieve a modest performance gain of $0.2\%$ over the baseline.
