@@ -7,10 +7,17 @@ Created on Sat Aug 19 18:36:26 2017
 
 import numpy as np
 import tensorflow as tf
+import sys
 
 np.random.seed(123)
 
-beta = 10000.0
+args = sys.argv
+
+if len(args) != 2:
+    print "Correct usage: python tensorflow_SVM_wDict.py <beta>"
+    sys.exit(0)
+
+beta = float(args[1])
 
 numAttributes = 10
 
@@ -70,7 +77,7 @@ def makeDataset():
         true_w9 * x_test[:, 8] + \
         true_w10 * x_test[:, 9] + \
         true_b
-    
+
     # P(+1|x)=a(u) #see slides for def. of a(u)
     pPlusOne = 1.0 / (1.0 + np.exp(-1.0 * u))
 
@@ -155,8 +162,8 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test});
-acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test;
+y_pred = sess.run([predictions], feed_dict={x: x_test, y: y_test})
+acc = np.sum(np.sign(1.0 + np.multiply(y_test, np.sign(y_pred)))) / n_test
 print(acc)
 # start the iterations of gradient descent
 for i in range(0, n_epochs):
