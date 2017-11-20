@@ -1,20 +1,25 @@
 \section{Results}
-After generating the defining matrices for our simple network as well as altering the weight, $beta$ of the regularization method the following table contains the accuracy of predictions.
+The results of or evaluation are given in Figure \ref{fig:accuracies}.  We mirrored the approach of Lavi et al by assessing the accuracy of the classifier for several values of $\beta$.
 \begin{figure}[h]
-	\caption{}
+	\caption{Evaluation Results}
 	\label{fig:accuracies}
 	\centering
-\begin{tabular}{|r|l|}
+\begin{tabular}{|c c|}
   \hline
-  value of: $\beta$ & Accuracy \\
+  $\beta$ & Accuracy (\%) \\
   \hline
-  0.0 & .685 \\
-  0.1 & .686 \\
-  0.5 & .686 \\
-  1.0 & .687 \\
+  0.0 & \textit{68.50} \\
+  0.05 & 68.60 \\
+  0.1 & 68.60 \\
+  0.5 & 68.60 \\
+  1.0 & \textbf{68.70} \\
+  2.0 & \textbf{68.70} \\
+  5.0 & 68.60 \\
+  10.0 & 68.50 \\
+  
   \hline \hline
   \multicolumn{2}{ |c| }{Calculated after 1000 iterations} \\
   \hline
 \end{tabular}
 \end{figure}
-Due to the lack of strong relations within our test network, there was only a subtle change in accuracy after taking into account the full weight of the regularization. Upon further investigation, more complex networks like STRING (Snel et al., 200; Jensen et al., 2009) in gene pair populations can provide more meaningful results. As stated in the original paper, Lavi's acquired results were based off of a network of 6243 nodes and 19102 edges where each node was an features in the feature set. Considering the scale of such network, our results when compared to Lavi's are scaled proportionally to the complexity of the graph.
+We observe that for $\beta = 1, 2$ we achieve a slight performance gain over the baseline of $\beta = 0$.  We also see a similar pattern to that found by Lavi et al on several of their datasets, that increasing values of $\beta$ may have little effect and may indeed have a detrimental loss on performance. Based on the performance gains achieved by Lavi et al, we theorize that a more complex network may yield more impressive results. Lavi et al for their evaluations utilized the STRING network \cite{Jensen2009} composed of 6243 nodes and 19102 edges representing 6243 genes and 19102 interactions respectively. Considering the scale of such network, the potential for NICK regularization to have a positive effect is much larger, as the complexity of the the classification problem increases.  Given our network is comparatively small, we can expect the performance benefits provided by regularization to be proportionally small as well.
